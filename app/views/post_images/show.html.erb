@@ -1,26 +1,27 @@
-<div>
-  <%= image_tag @post_image.get_image %>
-  <p>ショップ名：<%= @post_image.shop_name %></p>
-  <p>説明：<%= @post_image.caption %></p>
-  <p>投稿ユーザー画像：<%= image_tag @post_image.user.get_profile_image(100, 100) %></p>
-  <p>ユーザーネーム：<%= @post_image.user.name %></p>
-  <p>投稿日：<%= @post_image.created_at.strftime('%Y/%m/%d') %></p>
-  <% if @post_image.user == current_user %>
-    <%= link_to "削除", post_image_path(@post_image), method: :delete %>
-  <% end %>
-   <% if @post_image.favorited_by?(current_user) %>
-    <p>
-      <%= link_to post_image_favorites_path(@post_image), method: :delete do %>
-        ♥<%= @post_image.favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to post_image_favorites_path(@post_image), method: :post do %>
-        ♡<%= @post_image.favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
+<div class="post-detail py-5 bg-light">
+  <div class="card w-75 mx-auto mt-4 shadow-lg">
+  <%= image_tag @post_image.get_image , class:"card-img-top"; %>
+          <p>ショップ名：<%= @post_image.shop_name %></p>
+          <p>説明：<%= @post_image.caption %></p>
+          <p>投稿ユーザー画像：<%= image_tag @post_image.user.get_profile_image(100, 100) %></p>
+          <p>ユーザーネーム：<%= @post_image.user.name %></p>
+          <p>投稿日：<%= @post_image.created_at.strftime('%Y/%m/%d') %></p>
+    <% if @post_image.user == current_user %>
+      <%= link_to "削除", post_image_path(@post_image), method: :delete %>
+    <% end %>
+     <% if @post_image.favorited_by?(current_user) %>
+      <p>
+        <%= link_to post_image_favorites_path(@post_image), method: :delete do %>
+          ♥<%= @post_image.favorites.count %> いいね
+        <% end %>
+      </p>
+      <% else %>
+      <p>
+        <%= link_to post_image_favorites_path(@post_image), method: :post do %>
+          ♡<%= @post_image.favorites.count %> いいね
+        <% end %>
+      </p>
+    <% end %>
 </div>
 
 <div>
@@ -32,9 +33,13 @@
   <% end %>
 </div>
 
-<div>
-  <%= form_with model: [@post_image, @post_comment] do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
+<div class="new-comment card-text">
+  <%= form_with(model: [@post_image, @post_comment]) do |f| %>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">コメントする</label>
+    <%= f.text_area :comment, rows: '5', class: "form-control", placeholder: "コメントをここに" %>
+    </div>
+    <%= f.submit "送信する", class:"btn btn-lg btn-info mt-2 float-right" %>
   <% end %>
+  </div>
 </div>
